@@ -1,0 +1,81 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Azure.Core" Version="1.36.0" />
+		<PackageReference Include="Azure.Storage.Blobs" Version="12.19.1" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+		<PackageReference Include="Betalgo.OpenAI" Version="7.4.0" />
+		<PackageReference Include="Blazored.LocalStorage" Version="4.4.0" />
+		<PackageReference Include="Blazored.Toast" Version="4.1.0" />
+		<PackageReference Include="DevExpress.AspNetCore.Reporting" Version="23.1.6" />
+		<PackageReference Include="DevExpress.DataAccess" Version="23.1.6" />
+		<PackageReference Include="DevExpress.Blazor" Version="23.1.6" />
+		<PackageReference Include="FluentValidation" Version="11.8.0" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.0" />
+		<PackageReference Include="Google.Protobuf" Version="3.25.0" />
+		<PackageReference Include="Grpc.Net.Client.Web" Version="2.59.0" />
+		<PackageReference Include="Grpc.Net.ClientFactory" Version="2.59.0" />
+		<PackageReference Include="Grpc.Tools" Version="2.59.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Grpc.AspNetCore" Version="2.59.0" />
+		<PackageReference Include="Grpc.AspNetCore.Server" Version="2.59.0" />
+		<PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.59.0" />
+		<PackageReference Include="Grpc.AspNetCore.Web" Version="2.59.0" />
+		<PackageReference Include="Mapster" Version="7.4.0" />
+		<PackageReference Include="MediatR" Version="12.1.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Grpc.JsonTranscoding" Version="8.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Grpc.Swagger" Version="0.8.0" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client.Core" Version="8.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Common" Version="8.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.Json" Version="8.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.DynamicLinq" Version="7.3.5" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="Radzen.Blazor" Version="4.21.1" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
+		<PackageReference Include="StackExchange.Redis" Version="2.7.4" />
+		<PackageReference Include="Telegram.Bot" Version="19.0.0" />
+		<PackageReference Include="Toolbelt.Blazor.HotKeys2" Version="3.1.0" />
+		<PackageReference Include="Wisej-3-Html2Canvas" Version="3.2.7" />
+		<PackageReference Include="NewId" Version="4.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="bwaCrixalis.Shared">
+	    <HintPath>..\..\..\#Fortis Central\DevOps\Crixalis\bwaCrixalis\Shared\bin\Debug\net8.0\bwaCrixalis.Shared.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Pantheon.Client">
+	    <HintPath>..\..\..\#Fortis Central\DevOps\Pantheon\Client\bin\Debug\net8.0\Pantheon.Client.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Pantheon.Server">
+	    <HintPath>..\..\..\#Fortis Central\DevOps\Pantheon\Server\bin\Debug\net8.0\Pantheon.Server.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Pantheon.Shared">
+	    <HintPath>..\..\..\#Fortis Central\DevOps\Crixalis\bwaCrixalis\Shared\bin\Debug\net8.0\Pantheon.Shared.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
+</Project>

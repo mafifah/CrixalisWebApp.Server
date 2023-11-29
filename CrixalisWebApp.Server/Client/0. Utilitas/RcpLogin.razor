@@ -1,0 +1,26 @@
+﻿@page "/Login"
+@namespace bwaCrixalis.Client._0._Utilitas
+@using Pantheon.Client.Utility
+@inherits PthRcpLogin
+
+@{
+	base.BuildRenderTree(__builder);
+}
+
+@code
+{
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+	}
+
+	protected override void OnAfterRender(bool firstRender)
+	{
+		base.OnAfterRender(firstRender);
+	}
+
+	public override void CloseApp()
+	{
+		//Application.Current.Quit();
+	}
+}

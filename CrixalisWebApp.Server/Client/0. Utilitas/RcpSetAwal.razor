@@ -1,0 +1,47 @@
+﻿@page "/"
+@using static Pantheon.Client.Utility.AppBuilderExtensions
+@using static Pantheon.Client.Utility.modVariabel
+@namespace bwaCrixalis.Client._0._Utilitas
+@using Pantheon.Client.Utility
+@inherits PthRcpSetAwal
+
+@{
+	base.BuildRenderTree(__builder);
+}
+
+@code
+{
+	protected override async void OnInitialized()
+	{
+		base.OnInitialized();
+		await Task.Delay(1);
+		AlamatAPI = "https://localhost:7236/";
+		//AlamatAPI = "https://ascrixalis-evo.azurewebsites.net/";
+		URL_AzureBlobStorage = "https://sdatafile.blob.core.windows.net/fortiscentral";
+		IdCompany = "ABC";
+
+	}
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		await LSS.SetItemAsync("APIAddress", AlamatAPI);
+		await LSS.SetItemAsync("CompanyName", "Fortis Central");
+		await LSS.SetItemAsync("CompanyBlob", URL_AzureBlobStorage);
+		await LSS.SetItemAsync("CompanyInitial", "ABC");
+		await LSS.SetItemAsync("CompanyID", "ABC");
+
+		SetClientChannel();
+
+		TampilkanLogin = true;
+		TampilkanSetAwal = false;
+		NM.NavigateTo("Login");
+	}
+	public override async void ProsesSimpan()
+	{
+		base.ProsesSimpan();
+	}
+	public override void CloseApp()
+	{
+		//Application.Current.Quit();
+	}
+}

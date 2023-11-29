@@ -1,0 +1,403 @@
+﻿@inherits ConMaster_1<uimT1Karyawan, svcKaryawan>
+@using DevExpress.Blazor
+@namespace bwaCrixalis.Client._1._Master
+@using Mapster
+@using Pantheon.Client.Container
+@using bwaCrixalis.Shared._1._Master
+@{
+	base.BuildRenderTree(__builder);
+    RfDetil
+    =
+    @<DxFormLayout CssClass="custom-form-layout">
+        <DxFormLayoutItem CssClass="sticky-row-1" Caption="Nama Lengkap" ColSpanMd="12">
+            <DxTextBox @ref="@TxbNamaLengkap" @bind-Text="@DtRekapitulasi_Terseleksi.NamaLengkap" tabindex="1"/>
+        </DxFormLayoutItem>
+        <div class="sticky-row-2 row">
+        <DxFormLayoutItem ColSpanMd="2">
+        <DxButton   CssClass="w-100"
+                    RenderStyleMode="@ButtonRenderStyleMode.Text"
+                    Text="Identitas"/>
+        </DxFormLayoutItem>
+        <DxFormLayoutItem ColSpanMd="2">
+        <DxButton   CssClass="w-100"
+                    RenderStyleMode="@ButtonRenderStyleMode.Text"
+                    Text="Komunikasi"/>
+        </DxFormLayoutItem>
+        <DxFormLayoutItem ColSpanMd="2">
+        <DxButton   CssClass="w-100"
+                    RenderStyleMode="@ButtonRenderStyleMode.Text"
+                    Text="Catatan"/>
+        </DxFormLayoutItem>
+        <DxFormLayoutItem ColSpanMd="2">
+        <DxButton   CssClass="w-100"
+                    RenderStyleMode="@ButtonRenderStyleMode.Text"
+                    Text="Pengaturan"/>
+        </DxFormLayoutItem>
+        <DxFormLayoutItem ColSpanMd="4">
+        </DxFormLayoutItem>
+        </div>
+        <DxFormLayoutGroup ColSpanMd="12" Decoration="FormLayoutGroupDecoration.None">
+                    <DxFormLayoutItem @ref="@FliNamaPanggilan" Caption="Nama Panggilan" ColSpanMd="12">
+                        <DxTextBox @ref="@TxbNamaPanggilan" @bind-Text="@DtRekapitulasi_Terseleksi.NamaPanggilan" tabindex="2"/>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliJenisKelamin" Caption="Jenis Kelamin" ColSpanMd="12">
+                        <div style="display:flex;" role="radiogroup">
+                            @foreach (var opsi in DtJenisKelamin)
+                                {
+                                    <DxRadio SizeMode="SizeMode.Small" GroupName="Jenis Kelamin"
+                                                @bind-GroupValue="@DtRekapitulasi_Terseleksi.JenisKelamin"
+                                                Value="@opsi">
+                                        @opsi
+                                    </DxRadio>
+                                }
+                        </div>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliTempatLahir" Caption="Tempat Lahir" ColSpanMd="12">
+                        <DxTextBox @ref="@TxbTempatLahir" @bind-Text="@DtRekapitulasi_Terseleksi.TempatLahir" tabindex="4"/>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliTanggalLahir" Caption="Tanggal Lahir" ColSpanMd="12">
+                        <DxDateEdit CssClass="dteCustom" @ref="@DteTanggalLahir" @bind-Date="@DtRekapitulasi_Terseleksi.TanggalLahir" tabindex="5"/>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliUsia" Caption="Usia" ColSpanMd="12">
+                        <DxTextBox @ref="@TxbUsia" Text="@DtRekapitulasi_Terseleksi.Usia" TextExpression="@(() => DtRekapitulasi_Terseleksi.Usia)" tabindex="6"/>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliNoIdentitas1" Caption="No. Identitas 1" ColSpanMd="12">
+                        <DxTextBox @ref="@TxbNoIdentitas1" @bind-Text="@DtRekapitulasi_Terseleksi.NomorIdentitas1" tabindex="7"/>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliNoIdentitas2" Caption="No. Identitas 2" ColSpanMd="12">
+                        <DxTextBox @ref="@TxbNoIdentitas2" @bind-Text="@DtRekapitulasi_Terseleksi.NomorIdentitas2" tabindex="8"/>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliTanggalRekrut" Caption="Tanggal Rekrut" ColSpanMd="12">
+                        <DxDateEdit CssClass="dteCustom" @ref="@DteTanggalRekrut" @bind-Date="@DtRekapitulasi_Terseleksi.TanggalRekrut" tabindex="9"/>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliLamaKerja" Caption="Lama Kerja" ColSpanMd="12">
+                        <DxTextBox @ref="@TxbLamaKerja" Text="@DtRekapitulasi_Terseleksi.LamaKerja" TextExpression="@(() => DtRekapitulasi_Terseleksi.LamaKerja)" tabindex="1"/>
+                    </DxFormLayoutItem>
+                </DxFormLayoutGroup>
+                <DxFormLayoutGroup ColSpanMd="12">
+                    <HeaderTemplate>
+                        <div class="row">
+                            <div class="col-md-8">
+
+                            </div>
+                            <div class="col-md-4 custom-button">
+                                <label>
+                                    <span class="fa fa-solid fa-plus" aria-hidden="true"></span>
+                                    <InputFile hidden="true" class="custom-file-input" multiple OnChange="ProsesPilihGambar" accept="image/png, image/jpeg, image/gif" id="inputFile" />
+                                </label>
+                            </div>
+                        </div>
+                    </HeaderTemplate>
+                    <Items>
+                        <DxAccordion>
+                            <Items>
+                                @{
+                                    foreach (var item in _gambar)
+                                    {
+                                        <DxAccordionItem>
+                                            <HeaderTextTemplate>
+                                                <div class="flex-grow-1">
+                                                    @(
+                                                        $"Data ke-{_gambar.IndexOf(item) + 1} dari {_gambar.Count()}"
+                                                     )
+                                                </div>
+                                                <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Hapus" aria-label="Left Align">
+                                                    <span class="fa fa-solid fa-pen" aria-hidden="true"></span>
+                                                </button>
+                                                <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Hapus" aria-label="Left Align">
+                                                    <span class="fa fa-solid fa-trash" aria-hidden="true"></span>
+                                                </button>
+                                            </HeaderTextTemplate>
+                                            <ContentTemplate>
+                                                <DxFormLayout>
+                                                    <DxFormLayoutGroup HeaderCssClass="custom-background" ColSpanMd="12">
+                                                        <img class="img-preview" src="data:@item.contentType;base64,@item.base64data" width="100" />
+                                                    </DxFormLayoutGroup>
+                                                    <DxFormLayoutGroup HeaderCssClass="custom-background" ColSpanMd="12">
+                                                        <DxFormLayoutItem Context="ctxKategori" Caption="Kategori" CaptionPosition="CaptionPosition.Vertical" ColSpanMd="12">
+                                                            <DxTextBox @bind-Text="@item.Kategori"/>
+                                                        </DxFormLayoutItem>
+                                                            <DxFormLayoutItem Context="ctxKeterangan" Caption="Keterangan" CaptionPosition="CaptionPosition.Vertical" ColSpanMd="12">
+                                                            <DxMemo Rows="5" @bind-Text="@item.Keterangan"/>
+                                                        </DxFormLayoutItem>
+                                                    </DxFormLayoutGroup>
+                                                </DxFormLayout>
+                                            </ContentTemplate>
+                                        </DxAccordionItem>
+                                    }
+                                }
+                            </Items>
+                        </DxAccordion>
+                    </Items>
+                </DxFormLayoutGroup>
+                <DxFormLayoutGroup Caption="Daerah Asal" ColSpanMd="12">
+                    <DxFormLayoutItem @ref="@FliAlamatDaerahAsal" Caption="Alamat" ColSpanMd="12">
+                        <DxTextBox @ref="@TxbAlamatDaerahAsal" @bind-Text="@DtRekapitulasi_Terseleksi.AlamatAsal" tabindex="12"/>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliKotaAsal" Caption="Kota" ColSpanMd="12">
+                        <DxComboBox Data="@DtT2Kota" Value="@DtRekapitulasi_Terseleksi.IdKotaAsal" ValueExpression="@(() => DtRekapitulasi_Terseleksi.IdKotaAsal)" ValueChanged="@((long? val) => KotaAsal_ValueChanged(val))" FilteringMode="DataGridFilteringMode.Contains" ListRenderMode="ListRenderMode.Virtual" ValueFieldName="IdKota" EditFormat="{1}, {0}"  DisplayFormat="{1}, {0}" 
+                            CssClass="cw-480 font_0" TextFieldName="Kota" DropDownBodyCssClass="font_0" DropDownCssClass="font_0" InputCssClass="font_0" tabindex="13">
+                        </DxComboBox>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliKecamatanAsal" Caption="Kecamatan" ColSpanMd="12">
+                        <DxComboBox Data="@DtT3KecamatanAsal" Value="@DtRekapitulasi_Terseleksi.IdKecamatanAsal" ValueExpression="@(() => DtRekapitulasi_Terseleksi.IdKecamatanAsal)" ValueChanged="@((long? val) => KecamatanAsal_ValueChanged(val))" FilteringMode="DataGridFilteringMode.Contains" ValueFieldName="IdKecamatan" TextFieldName="Kecamatan"
+                             CssClass="font_0" DropDownBodyCssClass="font_0" DropDownCssClass="font_0" InputCssClass="font_0" tabindex="14">
+                        </DxComboBox>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliKelurahanAsal" Caption="Kelurahan" ColSpanMd="12">
+                        <DxComboBox Data="@DtT4KelurahanAsal" @bind-Value="@DtRekapitulasi_Terseleksi.IdKelurahanAsal" FilteringMode="DataGridFilteringMode.Contains" ValueFieldName="IdKelurahan" TextFieldName="Kelurahan"
+                             CssClass="font_0" DropDownBodyCssClass="font_0" DropDownCssClass="font_0" InputCssClass="font_0" tabindex="15">
+                        </DxComboBox>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliKodePosDaerahAsal" Caption="Kode Pos" ColSpanMd="4">
+                        <DxTextBox @ref="@TxbKodePosDaerahAsal" @bind-Text="@DtRekapitulasi_Terseleksi.KodePosAsal" tabindex="16"/>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliProvinsiAsal" ColSpanMd="8">
+                        <DxTextBox @ref="@TxbProvinsiAsal" @bind-Text="@DtRekapitulasi_Terseleksi.ProvinsiAsal" tabindex="17"/>
+                    </DxFormLayoutItem>
+                </DxFormLayoutGroup>
+                <DxFormLayoutGroup Caption="Daerah Tinggal" ColSpanMd="12">
+                    <DxFormLayoutItem @ref="@FliAlamatDaerahTinggal" Caption="Alamat" ColSpanMd="12">
+                        <DxTextBox @ref="@TxbAlamatDaerahTinggal" @bind-Text="@DtRekapitulasi_Terseleksi.AlamatTinggal" tabindex="18"/>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliKotaTinggal" Caption="Kota" ColSpanMd="12">
+                        <DxComboBox Data="@DtT2Kota" Value="@DtRekapitulasi_Terseleksi.IdKotaTinggal" ValueExpression="@(() => DtRekapitulasi_Terseleksi.IdKotaTinggal)" ValueChanged="@((long? val) => KotaTinggal_ValueChanged(val))" FilteringMode="DataGridFilteringMode.Contains" ValueFieldName="IdKota" EditFormat="{1}, {0}"  DisplayFormat="{1}, {0}" 
+                        CssClass="font_0" DropDownBodyCssClass="font_0" DropDownCssClass="font_0" InputCssClass="font_0" tabindex="19">
+                            <DxListEditorColumn FieldName="Jenis" Caption="Jenis"/>
+                            <DxListEditorColumn FieldName="Kota" Caption="Kota"/>
+                        </DxComboBox>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliKecamatanTinggal" Caption="Kecamatan" ColSpanMd="12">
+                        <DxComboBox Data="@DtT3KecamatanTinggal" Value="@DtRekapitulasi_Terseleksi.IdKecamatanTinggal" ValueExpression="@(() => DtRekapitulasi_Terseleksi.IdKecamatanTinggal)" ValueChanged="@((long? val) => KecamatanTinggal_ValueChanged(val))" FilteringMode="DataGridFilteringMode.Contains" ValueFieldName="IdKecamatan" TextFieldName="Kecamatan"
+                            CssClass="font_0" DropDownBodyCssClass="font_0" DropDownCssClass="font_0" InputCssClass="font_0" tabindex="20">
+                        </DxComboBox>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliKelurahanTinggal" Caption="Kelurahan" ColSpanMd="12">
+                        <DxComboBox Data="@DtT4KelurahanTinggal" @bind-Value="@DtRekapitulasi_Terseleksi.IdKelurahanTinggal" FilteringMode="DataGridFilteringMode.Contains" ValueFieldName="IdKelurahan" TextFieldName="Kelurahan"
+                            CssClass="font_0" DropDownBodyCssClass="font_0" DropDownCssClass="font_0" InputCssClass="font_0" tabindex="21">
+                        </DxComboBox>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliKodePosDaerahTinggal" Caption="Kode Pos" ColSpanMd="4">
+                        <DxTextBox @ref="@TxbKodePosDaerahTinggal" @bind-Text="@DtRekapitulasi_Terseleksi.KodePosTinggal" tabindex="22"/>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliProvinsiTinggal" ColSpanMd="8">
+                        <DxTextBox @ref="@TxbProvinsiTinggal" @bind-Text="@DtRekapitulasi_Terseleksi.ProvinsiTinggal" tabindex="23"/>
+                    </DxFormLayoutItem>
+                </DxFormLayoutGroup>
+                <DxFormLayoutGroup Caption="Telekomunikasi" ColSpanMd="12">
+                    <DxFormLayoutItem @ref="@FliTelepon" Caption="Telepon" ColSpanMd="12">
+                        <DxMaskedInput @ref="@MsiTelepon" @bind-Value="@DtRekapitulasi_Terseleksi.Telepon" Mask="+00 00000000000" tabindex="24"/>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliSeluler1" Caption="Seluler 1" ColSpanMd="12">
+                        <DxMaskedInput @ref="@MsiSeluler1" @bind-Value="@DtRekapitulasi_Terseleksi.Seluler1" Mask="+00 00000000000" tabindex="25"/>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliSeluler2" Caption="Seluler 2" ColSpanMd="12">
+                        <DxMaskedInput @ref="@MsiSeluler2" @bind-Value="@DtRekapitulasi_Terseleksi.Seluler2" Mask="+00 00000000000" tabindex="26"/>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliEmail" Caption="Email" ColSpanMd="12">
+                        <DxTextBox @ref="@TxbEmail" @bind-Text="@DtRekapitulasi_Terseleksi.Email" tabindex="27"/>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliLainnya" Caption="Lainnya" ColSpanMd="12">
+                        <DxMemo @ref="@MmoLainnya" @bind-Text="@DtRekapitulasi_Terseleksi.KomunikasiLain" Rows="10" tabindex="28"/>
+                    </DxFormLayoutItem>
+                </DxFormLayoutGroup>
+                <DxFormLayoutGroup Caption="Kerabat yang Bisa Dihubungi dalam Kondisi Darurat" ColSpanMd="12">
+                    <DxFormLayoutItem @ref="@FliNamaKerabat" Caption="Nama" ColSpanMd="12">
+                        <DxTextBox @ref="@TxbNamaKerabat" @bind-Text="@DtRekapitulasi_Terseleksi.NamaKerabat" tabindex="29"/>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliHubunganKerabat" Caption="Hubungan" ColSpanMd="12">
+                        <DxTextBox @ref="@TxbHubunganKerabat" @bind-Text="@DtRekapitulasi_Terseleksi.HubunganKerabat" tabindex="30"/>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliAlamatKerabat" Caption="Alamat" ColSpanMd="12">
+                        <DxMemo @ref="@MmoAlamatKerabat" @bind-Text="@DtRekapitulasi_Terseleksi.AlamatKerabat" Rows="12" tabindex="31"/>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliTeleponKerabat" Caption="Telepon" ColSpanMd="12">
+                        <DxMaskedInput @ref="@MsiTeleponKerabat" @bind-Text="@DtRekapitulasi_Terseleksi.TeleponKerabat" @bind-Value="@_teleponText" Mask="+00 00000000000" tabindex="32"/>
+                    </DxFormLayoutItem>
+                </DxFormLayoutGroup>
+                <DxFormLayoutGroup Caption="Rekening" ColSpanMd="12">
+                    <DxFormLayoutItem @ref="@FliRekening" ColSpanMd="12">
+                        <DxMemo @ref="@MmoRekening" @bind-Text="@DtRekapitulasi_Terseleksi.Rekening" Rows="5" tabindex="33"/>
+                    </DxFormLayoutItem>
+                </DxFormLayoutGroup>
+                <DxFormLayoutGroup Caption="Dokumen" ColSpanMd="12">
+                    <DxFormLayoutItem @ref="@FliBPJS" Caption="BPJS" ColSpanMd="12">
+                        <DxTextBox @ref="@TxbBPJS" @bind-Text="@DtRekapitulasi_Terseleksi.BPJS" tabindex="34"/>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliNPWP" Caption="NPWP" ColSpanMd="12">
+                        <DxTextBox @ref="@TxbNPWP" @bind-Text="@DtRekapitulasi_Terseleksi.NPWP" tabindex="35"/>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliDokJaminan" Caption="Dok. Jaminan" ColSpanMd="12">
+                        <DxTextBox @ref="@TxbDokJaminan" @bind-Text="@DtRekapitulasi_Terseleksi.DokumenJaminan" tabindex="36"/>
+                    </DxFormLayoutItem>
+                </DxFormLayoutGroup>
+                <DxFormLayoutGroup Caption="Keterangan" ColSpanMd="12">
+                    <DxFormLayoutItem @ref="@FliKeterangan" ColSpanMd="12">
+                        <DxMemo @ref="@MmoKeterangan" @bind-Text="@DtRekapitulasi_Terseleksi.Keterangan" Rows="15" tabindex="37"/>
+                    </DxFormLayoutItem>
+                </DxFormLayoutGroup>
+                <DxFormLayoutGroup Decoration="FormLayoutGroupDecoration.None" ColSpanMd="12">
+                    <DxFormLayoutItem @ref="@FliNIK" Caption="N.I.K" ColSpanMd="12">
+                        <DxTextBox @ref="@TxbNIK" @bind-Text="@DtRekapitulasi_Terseleksi.NIK" tabindex="38"/>
+                    </DxFormLayoutItem>
+                    
+                    <DxFormLayoutItem @ref="@FliJabatan" Caption="Jabatan" ColSpanMd="12">
+                        <DxComboBox @ref="CmbJabatan" Data="@DtJabatan" @bind-Value="@DrJabatan" TextFieldName="Jabatan" CssClass="cw-480 font_0" DropDownBodyCssClass="font_0" DropDownCssClass="font_0" InputCssClass="font_0" DropDownVisibleChanged="@((bool val) => CmbJabatan_DropDownVisibleChanged(val))" tabindex="40">
+                            <DxListEditorColumn FieldName="Jabatan" Caption="Jabatan"/>
+                            <DxListEditorColumn FieldName="Kode" Caption="Kode"/>
+                        </DxComboBox>
+                    </DxFormLayoutItem>
+                    
+                    <DxFormLayoutItem @ref="@FliStatusLogin"  Caption="Status Login" ColSpanMd="12">
+                        <DxCheckBox @ref="@ChbStatusLogin" @bind-Checked="@DtRekapitulasi_Terseleksi.StatusLogin" tabindex="42">Diperbolehkan Login</DxCheckBox>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliUserName" Caption="User Name" ColSpanMd="12">
+                         @{ bool EnableTxbUsername = DtRekapitulasi_Terseleksi.StatusLogin ?? false; }
+                          <DxTextBox @ref="@TxbUserName" InputCssClass="Huruf-Kapital" @bind-Text="@DtRekapitulasi_Terseleksi.UserName" Enabled="@EnableTxbUsername" @oninput="@ProsesGeneratePassword" tabindex="43"/>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliUserPassword" Caption="User Password" ColSpanMd="8">
+                        <DxTextBox @ref="@TxbUserPassword" @bind-Text="@DtRekapitulasi_Terseleksi.Password" Enabled="false" CssClass="PasswordKaryawan" tabindex="44"/>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem ColSpanMd="4">
+                        <DxButton Text="Reset" tabindex="45"></DxButton>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliStatus" Caption="Status" ColSpanMd="12">
+                        <DxCheckBox @ref="@ChbStatus" @bind-Checked="@DtRekapitulasi_Terseleksi.Status" tabindex="46">Aktif</DxCheckBox>
+                    </DxFormLayoutItem>
+                    <DxFormLayoutItem @ref="@FliTanggalBerhenti" Caption="Tanggal Berhenti" ColSpanMd="12">
+                        <DxDateEdit CssClass="dteCustom" @ref="@DteTanggalBerhenti" @bind-Date="@DtRekapitulasi_Terseleksi.TanggalBerhenti" tabindex="47"/>
+                    </DxFormLayoutItem>
+                </DxFormLayoutGroup>
+                <DxFormLayoutGroup Caption="Rangkap Jabatan" ColSpanMd="12">
+                    
+                </DxFormLayoutGroup>
+                <DxFormLayoutGroup Decoration="FormLayoutGroupDecoration.None" ColSpanMd="12"/>
+                <DxFormLayoutGroup Decoration="FormLayoutGroupDecoration.None" ColSpanMd="12">
+                    <DxFormLayoutGroup ColSpanMd="12" Caption="Cetak QR">
+                        <DxFormLayoutItem @ref="@FliPrefix" Caption="Prefix" CaptionPosition="CaptionPosition.Vertical" ColSpanMd="12">
+                            <DxTextBox @ref="@TxbPrefix" tabindex="48"/>
+                        </DxFormLayoutItem>
+                        <DxFormLayoutItem @ref="@FliCode" Caption="Code" CaptionPosition="CaptionPosition.Vertical" ColSpanMd="12">
+                            <DxTextBox @ref="@TxbCode" tabindex="49"/>
+                        </DxFormLayoutItem>
+                        <DxFormLayoutItem @ref="@FliSuffix" Caption="Suffix" CaptionPosition="CaptionPosition.Vertical" ColSpanMd="12">
+                            <DxTextBox @ref="@TxbSuffix" tabindex="50"/>
+                        </DxFormLayoutItem>
+                        <DxFormLayoutItem @ref="@FliSeparator" Caption="Separator" CaptionPosition="CaptionPosition.Vertical" ColSpanMd="12">
+                            <DxTextBox @ref="@TxbSeparator" tabindex="51"/>
+                        </DxFormLayoutItem>
+                        <DxFormLayoutItem CaptionPosition="CaptionPosition.Vertical" ColSpanMd="12">
+                            <DxButton Text="Cetak" tabindex="52"></DxButton>
+                        </DxFormLayoutItem>
+                    </DxFormLayoutGroup>
+                    <DxFormLayoutGroup Decoration="FormLayoutGroupDecoration.None" ColSpanMd="12">
+                        <DxFormLayoutItem ColSpanMd="12">
+                            @*<div style="height:5vh !important;">
+                        @{
+                            var x = filesBase64.FirstOrDefault();
+                                <img src="data:@x.contentType;base64,@x.base64data" height="60" />
+                        }
+                    </div>*@
+                            <div class="card" style="width: 10vw;padding-top:6vh !important;">
+                                @{
+                                    //var x = filesBase64.FirstOrDefault();
+                                    //<img class="card-img-top" src="data:@x.contentType;base64,@x.base64data">
+                                }
+                            </div>
+                        </DxFormLayoutItem>
+                    </DxFormLayoutGroup>
+                </DxFormLayoutGroup>
+    </DxFormLayout>;
+}
+
+@code {
+    
+}
+
+<style>
+    .dxbl-scroll-viewer {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        opacity: 1 !important;
+        position: sticky;
+        position: -webkit-sticky !important;
+        top: 100px; /* Sesuaikan dengan tinggi header Anda */
+        z-index: 9999;
+        background-color:white !important;
+    } 
+    .tabs-detil-custom > .dxbl-tabs {
+        --dxbl-tabs-tab-border-width: 0px;
+    }
+
+    .tabs-detil-custom > .dxbl-tabs > .dxbl-tabs-tablist.dxbl-tabs-tablist-scrollable {
+        display: contents;
+    }
+
+    .tabs-detil-custom {
+       
+    } 
+  
+    .sticky-row-1 {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        opacity: 1 !important;
+        position: -webkit-sticky !important;
+        position: sticky;
+        top: 50px; /* Sesuaikan dengan tinggi header Anda */
+        z-index: 10000;
+        background-color:white !important;
+    }
+    .sticky-row-2 {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        opacity: 1 !important;
+        position: -webkit-sticky !important;
+        position: sticky;
+        top: 100px; /* Sesuaikan dengan tinggi header Anda */
+        z-index: 9999;
+        background-color:white !important;
+    }
+</style>
+
+<style>
+    .input-label{
+        cursor:pointer;
+        margin-top:15%;
+    }
+    .img-preview{
+        padding-bottom: 2vh !important;
+        padding-top: 4vh;
+    }
+    .textBoxGambar
+    {
+        margin-top: 5px;
+        padding-left: 5px;
+        padding-right: 5px;
+        margin-bottom: 5px;
+    }
+    .scrollable {  
+        overflow-y: auto;  
+        height: 50%;  
+    }  
+    @@media (max-width: 768px) {
+        .custom-button{
+           margin-left: -6vh !important;
+        }
+    }
+    
+    label[data-title]{
+      position: relative;
+      &:hover:after{
+        font-size: 1rem;
+        font-weight: normal;
+        display: block;
+        position: absolute;
+        left: -8em;
+        bottom: 2em;
+        content:  attr(data-title);
+        background-color: white;
+        width: 20em;
+        text-align: center;
+      }
+    }
+</style>

@@ -1,0 +1,578 @@
+﻿@using static Pantheon.Client.Utility.modVariabel
+@using Radzen
+@using Radzen.Blazor
+@using Mapster
+@using Pantheon.Client.Container
+@inherits ConMaster_1<uimT1SupplierInstansi, svcSupplierInstansi>
+@namespace bwaCrixalis.Client._1._Master
+
+@{
+    base.BuildRenderTree(__builder);
+    RfDetil =
+    @<RadzenTemplateForm CssClass="custom-form-layout" Data="@DtRekapitulasi_Terseleksi">
+        <RadzenRow Class="rz-p-0 rz-p-lg-4">
+            <RadzenColumn Size="12" SizeMD="12">
+                <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                    <RadzenColumn Size="12" SizeMD="2">
+                        <RadzenLabel Text="Date" />
+                    </RadzenColumn>
+                    <RadzenColumn Size="12" SizeMD="8">
+                        <RadzenDatePicker @bind-Value=@value />
+                    </RadzenColumn>
+                </RadzenRow>
+                <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                    <RadzenColumn Size="12" SizeMD="2">
+                        <RadzenLabel Text="Prefix" />
+                    </RadzenColumn>
+                    <RadzenColumn Size="12" SizeMD="8">
+                        @*<RadzenDropDown @bind-Value="@DtRekapitulasi_Terseleksi.Prefix"
+                                        TabIndex="1"
+                                        Placeholder="Prefix"
+                                        Data="@DtCmbPrefix"
+                                        Style="width: 100%;"
+                                        TextProperty="DataOption"
+                                        ValueProperty="DataOption"
+                                        Name="CmbPrefix">
+                        </RadzenDropDown>*@
+                    </RadzenColumn>
+                </RadzenRow>
+
+                <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                    <RadzenColumn Size="12" SizeMD="2">
+                        <RadzenLabel Text="Nama" />
+                    </RadzenColumn>
+                    <RadzenColumn Size="12" SizeMD="8">
+                        <RadzenTextBox Style="width: 100%;"
+                                       TabIndex="2"
+                                       Name="TxbNama"
+                                       @bind-Value="@DtRekapitulasi_Terseleksi.Nama" />
+                    </RadzenColumn>
+                </RadzenRow>
+
+                <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                    <RadzenColumn Size="12" SizeMD="2">
+                        <RadzenLabel Text="Jenis" />
+                    </RadzenColumn>
+                    <RadzenColumn Size="12" SizeMD="8">
+                        @*<RadzenDropDown @bind-Value="DtRekapitulasi_Terseleksi.IdJenisSupplier"
+                                        TabIndex="3"
+                                        Placeholder="Jenis"
+                                        Data="@DtCmbJenisSupplier"
+                                        TextProperty="Jenis"
+                                        ValueProperty="IdJenisSupplier"
+                                        Style="width: 100%;"
+                                        Name="CmbJenisSupplier">
+                        </RadzenDropDown>*@
+                    </RadzenColumn>
+                </RadzenRow>
+
+                <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                    <RadzenColumn Size="12" SizeMD="2">
+                        <RadzenLabel Text="Kode" />
+                    </RadzenColumn>
+                    <RadzenColumn Size="12" SizeMD="8">
+                        <RadzenTextBox Style="width: 100%;"
+                                       TabIndex="4"
+                                       Name="TxbKode"
+                                       @bind-Value="@DtRekapitulasi_Terseleksi.Kode" />
+                    </RadzenColumn>
+                </RadzenRow>
+
+                <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                    <RadzenColumn Size="12" SizeMD="2">
+                        <RadzenLabel Text="Inisial" />
+                    </RadzenColumn>
+                    <RadzenColumn Size="12" SizeMD="8">
+                        <RadzenTextBox Style="width: 100%;"
+                                       Name="TxbInisial"
+                                       @bind-Value="@DtRekapitulasi_Terseleksi.Inisial" />
+                    </RadzenColumn>
+                </RadzenRow>
+
+                <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                    <RadzenColumn Size="12" SizeMD="2">
+                        <RadzenLabel Text="Status" />
+                    </RadzenColumn>
+                    <RadzenColumn Size="12" SizeMD="8">
+                        <RadzenCheckBox @bind-Value=@DtRekapitulasi_Terseleksi.Status Name="Status" />
+                    </RadzenColumn>
+                </RadzenRow>
+
+            </RadzenColumn>
+        </RadzenRow>
+
+
+        <RadzenFieldset Text="Komunikasi">
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Kota" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenDropDownDataGrid @ref="@CmbKota" @bind-Value=@DtRekapitulasi_Terseleksi.IdKota Data=@DtT2Kota TextProperty="Kota" ValueProperty="IdKota"
+                                            AllowColumnResize="true" AllowFilteringByAllStringColumns="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterOperator="StringFilterOperator.Contains" AllowFiltering="true" AllowVirtualization="true">
+                        <Columns>
+                            <RadzenDropDownDataGridColumn Property="Jenis" Title="Jenis" />
+                            <RadzenDropDownDataGridColumn Property="Kota" Title="Kota"/>
+                        </Columns>
+                    </RadzenDropDownDataGrid>
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Kecamatan" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenDropDown Placeholder="Kecamatan" @bind-Value="@DtRekapitulasi_Terseleksi.IdKecamatan"
+                                    Data="@DtT3Kecamatan"
+                                    Style="width: 100%;"
+                                    SelectedItemChanged="@((object val) => Kecamatan_ValueChanged(val))"
+                                    TextProperty="@nameof(uimT3Kecamatan.Kecamatan)"
+                                    ValueProperty="IdKecamatan">
+                    </RadzenDropDown>
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Kelurahan" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenDropDown @bind-Value="@DtRekapitulasi_Terseleksi.IdKelurahan"
+                                    Placeholder="Kelurahan"
+                                    Data="@DtT4Kelurahan"
+                                    Style="width: 100%;"
+                                    TextProperty="Kelurahan"
+                                    ValueProperty="IdKelurahan"
+                                    Name="DataOption">
+                    </RadzenDropDown>
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Alamat" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenTextBox Style="width: 100%;"
+                                   Name="TxbAlamat"
+                                   @bind-Value="@DtRekapitulasi_Terseleksi.Alamat" />
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Kode Pos" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenTextBox Style="width: 100%;"
+                                   Name="TxbKodePos"
+                                   @bind-Value="@DtRekapitulasi_Terseleksi.KodePos" />
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Koordinat" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenTextBox Style="width: 100%;"
+                                   Name="TxbKoordinat"
+                                   @bind-Value="@DtRekapitulasi_Terseleksi.Koordinat" />
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Port Of Charge" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenTextBox Style="width: 100%;"
+                                   Name="TxbPortOfCharge"
+                                   @bind-Value="@DtRekapitulasi_Terseleksi.PortOfCharge" />
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Freight On Board" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenTextBox Style="width: 100%;"
+                                   Name="TxbFreightOnBoard"
+                                   @bind-Value="@DtRekapitulasi_Terseleksi.FreightOnBoard" />
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Web 1" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenTextBox Style="width: 100%;"
+                                   Name="TxbWebsite1"
+                                   @bind-Value="@DtRekapitulasi_Terseleksi.Website1" />
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Web 2" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenTextBox Style="width: 100%;"
+                                   Name="TxbWebsite2"
+                                   @bind-Value="@DtRekapitulasi_Terseleksi.Website2" />
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Email 1" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenTextBox Style="width: 100%;"
+                                   Name="TxbEmail1"
+                                   @bind-Value="@DtRekapitulasi_Terseleksi.Email1" />
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Email 2" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenTextBox Style="width: 100%;"
+                                   Name="TxbEmail2"
+                                   @bind-Value="@DtRekapitulasi_Terseleksi.Email2" />
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Telp 1" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenTextBox Style="width: 100%;"
+                                   Name="TxbPhone1"
+                                   @bind-Value="@DtRekapitulasi_Terseleksi.Phone1" />
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Telp 2" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenTextBox Style="width: 100%;"
+                                   Name="TxbPhone2"
+                                   @bind-Value="@DtRekapitulasi_Terseleksi.Phone2" />
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Telp 3" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenTextBox Style="width: 100%;"
+                                   Name="TxbPhone3"
+                                   @bind-Value="@DtRekapitulasi_Terseleksi.Phone3" />
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Telp 4" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenTextBox Style="width: 100%;"
+                                   Name="TxbPhone4"
+                                   @bind-Value="@DtRekapitulasi_Terseleksi.Phone4" />
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Telp 5" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenTextBox Style="width: 100%;"
+                                   Name="TxbPhone5"
+                                   @bind-Value="@DtRekapitulasi_Terseleksi.Phone5" />
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Fax 1" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenTextBox Style="width: 100%;"
+                                   Name="TxbFaxPhone1"
+                                   @bind-Value="@DtRekapitulasi_Terseleksi.FaxPhone1" />
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Fax 2" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenTextBox Style="width: 100%;"
+                                   Name="TxbFaxPhone2"
+                                   @bind-Value="@DtRekapitulasi_Terseleksi.FaxPhone2" />
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Fax 3" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenTextBox Style="width: 100%;"
+                                   Name="TxbFaxPhone3"
+                                   @bind-Value="@DtRekapitulasi_Terseleksi.FaxPhone3" />
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Fax 4" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenTextBox Style="width: 100%;"
+                                   Name="TxbFaxPhone4"
+                                   @bind-Value="@DtRekapitulasi_Terseleksi.FaxPhone4" />
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Fax 5" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenTextBox Style="width: 100%;"
+                                   Name="TxbFaxPhone5"
+                                   @bind-Value="@DtRekapitulasi_Terseleksi.FaxPhone5" />
+                </RadzenColumn>
+            </RadzenRow>
+
+        </RadzenFieldset>
+
+        <RadzenFieldset Text="Penyelia">
+
+            <RadzenDataGrid AllowFiltering="true"
+                            AllowColumnResize="true"
+                            AllowAlternatingRows="false"
+                            FilterMode="FilterMode.Advanced"
+                            AllowGrouping="true"
+                            AllowSorting="true"
+                            PagerHorizontalAlign="HorizontalAlign.Left"
+                            Data="@(DtGrdPenyeliaSupplier.Adapt<IList<uimT2PenyeliaSupplier>>())"
+                            TItem="uimT2PenyeliaSupplier"
+                            ColumnWidth="300px"
+                            LogicalFilterOperator="LogicalFilterOperator.Or">
+                <Columns>
+                    <RadzenDataGridColumn TItem="uimT2PenyeliaSupplier" Property="@nameof(uimT2PenyeliaSupplier.Prefix)" Title="Prefix" Width="60px" />
+                    <RadzenDataGridColumn TItem="uimT2PenyeliaSupplier" Property="@nameof(uimT2PenyeliaSupplier.Nama)" Title="Nama" Width="60px" />
+                    <RadzenDataGridColumn TItem="uimT2PenyeliaSupplier" Property="@nameof(uimT2PenyeliaSupplier.JenisKelamin)" Title="Jenis Kelamin" Width="60px" />
+                    <RadzenDataGridColumn TItem="uimT2PenyeliaSupplier" Property="@nameof(uimT2PenyeliaSupplier.Jabatan)" Title="Jabatan" Width="60px" />
+                    <RadzenDataGridColumn TItem="uimT2PenyeliaSupplier" Property="@nameof(uimT2PenyeliaSupplier.Phone1)" Title="Telp 1" Width="60px" />
+                    <RadzenDataGridColumn TItem="uimT2PenyeliaSupplier" Property="@nameof(uimT2PenyeliaSupplier.Email)" Title="Email" Width="60px" />
+                    <RadzenDataGridColumn TItem="uimT2PenyeliaSupplier" Property="@nameof(uimT2PenyeliaSupplier.Phone2)" Title="Telp 2" Width="60px" Visible="false" />
+                    <RadzenDataGridColumn TItem="uimT2PenyeliaSupplier" Property="@nameof(uimT2PenyeliaSupplier.Messenger)" Title="Messenger" Visible="false" />
+                    <RadzenDataGridColumn TItem="uimT2PenyeliaSupplier" Property="@nameof(uimT2PenyeliaSupplier.NIP)" Title="NIP" Visible="false" />
+                    <RadzenDataGridColumn TItem="uimT2PenyeliaSupplier" Property="@nameof(uimT2PenyeliaSupplier.Rekening)" Title="Rekening" Visible="false" />
+
+                </Columns>
+            </RadzenDataGrid>
+        </RadzenFieldset>
+
+        <RadzenFieldset Text="Alamat">
+            <RadzenDataGrid AllowFiltering="true"
+                            AllowColumnResize="true"
+                            AllowAlternatingRows="false"
+                            FilterMode="FilterMode.Advanced"
+                            AllowGrouping="true"
+                            AllowSorting="true"
+                            PagerHorizontalAlign="HorizontalAlign.Left"
+                            Data="@(DtGrdAlamatSupplier.Adapt<IList<uimT2AlamatSupplier>>())"
+                            TItem="uimT2AlamatSupplier"
+                            ColumnWidth="300px"
+                            LogicalFilterOperator="LogicalFilterOperator.Or">
+                <Columns>
+                    <RadzenDataGridColumn TItem="uimT2AlamatSupplier" Property="@nameof(uimT2AlamatSupplier.Alamat)" Title="Alamat" Width="60px" />
+                    <RadzenDataGridColumn TItem="uimT2AlamatSupplier" Property="@nameof(uimT2AlamatSupplier.Kota)" Title="Kota" Width="60px" />
+                    <RadzenDataGridColumn TItem="uimT2AlamatSupplier" Property="@nameof(uimT2AlamatSupplier.KodePos)" Title="KodePos" Width="60px" />
+                    <RadzenDataGridColumn TItem="uimT2AlamatSupplier" Property="@nameof(uimT2AlamatSupplier.Phone1)" Title="Telp 1" Width="60px" />
+                    <RadzenDataGridColumn TItem="uimT2AlamatSupplier" Property="@nameof(uimT2AlamatSupplier.Phone2)" Title="Telp 2" Width="60px" />
+                    <RadzenDataGridColumn TItem="uimT2AlamatSupplier" Property="@nameof(uimT2AlamatSupplier.FaxPhone1)" Title="Fax 1" Width="60px" />
+                    <RadzenDataGridColumn TItem="uimT2AlamatSupplier" Property="@nameof(uimT2AlamatSupplier.FaxPhone2)" Title="Fax 2" Width="60px" />
+
+                </Columns>
+            </RadzenDataGrid>
+        </RadzenFieldset>
+
+        <RadzenFieldset Text="Catatan">
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Keterangan" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenTextArea Value="@DtRekapitulasi_Terseleksi.Keterangan" class="w-100" />
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Rekening" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenTextArea Value="@DtRekapitulasi_Terseleksi.Rekening" class="w-100" />
+                </RadzenColumn>
+            </RadzenRow>
+
+        </RadzenFieldset>
+
+        <RadzenFieldset Text="Pengaturan">
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Jenis PPN" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    @*<RadzenDropDown @bind-Value="@DtRekapitulasi_Terseleksi.JenisPPN"
+                                    Placeholder="Jenis PPN"
+                                    Data="@DtJenisPPN"
+                                    Style="width: 100%;"
+                                    TextProperty="DataOption"
+                                    ValueProperty="DataOption"
+                                    Name="CmbJenisPPN">
+                    </RadzenDropDown>*@
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Jenis Pembelian" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    @*<RadzenDropDown @bind-Value="@DtRekapitulasi_Terseleksi.JenisPembelian"
+                                    Placeholder="Jenis Pembelian"
+                                    Data="@DtJenisPembelian"
+                                    Style="width: 100%;"
+                                    TextProperty="DataOption"
+                                    ValueProperty="DataOption"
+                                    Name="CmbJenisPembelian">
+                    </RadzenDropDown>*@
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Jenis Retur" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    @*<RadzenDropDown @bind-Value="@DtRekapitulasi_Terseleksi.JenisReturPembelian"
+                                    Placeholder="Jenis Pembelian"
+                                    Data="@DtJenisReturPembelian"
+                                    Style="width: 100%;"
+                                    TextProperty="DataOption"
+                                    ValueProperty="DataOption"
+                                    Name="CmbJenisReturPembelian">
+                    </RadzenDropDown>*@
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Termin" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenNumeric @bind-Value="@DtRekapitulasi_Terseleksi.Termin" class="w-100" />
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Batas Hutang Giro" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenNumeric @bind-Value="@DtRekapitulasi_Terseleksi.BatasHutangGiro" class="w-100" />
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Batas Hutang Usaha" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenNumeric @bind-Value="@DtRekapitulasi_Terseleksi.BatasHutangUsaha" class="w-100" />
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Hari Penagihan" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenNumeric @bind-Value="@DtRekapitulasi_Terseleksi.JadwalPenagihan" class="w-100" />
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Cabang" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    @*<RadzenDropDown @bind-Value="@DtRekapitulasi_Terseleksi.IdCompany"
+                                    Placeholder="IdCompany"
+                                    Data="@DtCompany"
+                                    Style="width: 100%;"
+                                    TextProperty="@DtRekapitulasi_Terseleksi.IdCompany"
+                                    ValueProperty="@DtRekapitulasi_Terseleksi.IdCompany"
+                                    Name="CmbIdCompany">
+                    </RadzenDropDown>*@
+                </RadzenColumn>
+            </RadzenRow>
+
+            <RadzenRow Class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="2">
+                    <RadzenLabel Text="Terapkan ke semua cabang" />
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="8">
+                    <RadzenCheckBox @bind-Value=@DtRekapitulasi_Terseleksi.Status Name="Status" />
+                </RadzenColumn>
+            </RadzenRow>
+
+        </RadzenFieldset>
+
+        <RadzenFieldset Text="Relasi">
+            <RadzenDataGrid AllowFiltering="true"
+                            AllowColumnResize="true"
+                            AllowAlternatingRows="false"
+                            FilterMode="FilterMode.Advanced"
+                            AllowGrouping="true"
+                            AllowSorting="true"
+                            PagerHorizontalAlign="HorizontalAlign.Left"
+                            Data="@(DtGrdVendorSupplier.Adapt<IList<uimT5VendorSupplier>>())"
+                            TItem="uimT5VendorSupplier"
+                            ColumnWidth="300px"
+                            LogicalFilterOperator="LogicalFilterOperator.Or">
+                <Columns>
+                    <RadzenDataGridColumn TItem="uimT5VendorSupplier" Property="@nameof(uimT5VendorSupplier.Vendor)" Title="Vendor" Width="60px" />
+                    <RadzenDataGridColumn TItem="uimT5VendorSupplier" Property="@nameof(uimT5VendorSupplier.Prefix)" Title="Prefix" Width="60px" />
+                    <RadzenDataGridColumn TItem="uimT5VendorSupplier" Property="@nameof(uimT5VendorSupplier.Inisial)" Title="Inisial" Width="60px" />
+                    <RadzenDataGridColumn TItem="uimT5VendorSupplier" Property="@nameof(uimT5VendorSupplier.Alamat)" Title="Alamat" Width="60px" />
+                    <RadzenDataGridColumn TItem="uimT5VendorSupplier" Property="@nameof(uimT5VendorSupplier.Kota)" Title="Kota" Width="60px" />
+                    <RadzenDataGridColumn TItem="uimT5VendorSupplier" Property="@nameof(uimT5VendorSupplier.ServisVendorSupplier)" Title="Servis" Width="60px" />
+
+                </Columns>
+            </RadzenDataGrid>
+        </RadzenFieldset>
+
+    </RadzenTemplateForm>;
+}

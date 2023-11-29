@@ -1,0 +1,31 @@
+﻿@using Grpc.Net.Client;
+@using Grpc.Net.Client.Web;
+@using Radzen.Blazor
+@inherits LayoutComponentBase
+@inject Blazored.LocalStorage.ILocalStorageService _lss
+
+<div class="page">
+	<main>
+		<article class="FullSidebar">
+				<RadzenDialog/>
+				<RadzenNotification/>
+				<RadzenTooltip/>
+				<RadzenRequiredValidator />
+				@Body
+		</article>
+	</main>
+</div>
+
+<style>
+	.FullSidebar
+	{
+		/*margin-left : -2vw;*/
+	}
+</style>
+
+@code {
+	protected override async void OnInitialized()
+	{
+		//await _lss.RemoveItemAsync("APIAddress");
+	}
+}
